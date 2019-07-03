@@ -19,10 +19,19 @@ class App extends Component {
           title={movie.title}
           poster={movie.medium_cover_image}
           key={movie.id}
+          genres={movie.genres}
+          summary={movie.summary}
         />
       );
     });
     return movies;
+  };
+
+  _callAPI = () => {
+    return fetch("https://yts.lt/api/v2/list_movies.json?sort_by=rating")
+      .then(potato => potato.json())
+      .then(tomato => tomato.data.movies)
+      .catch(error => console.log(error));
   };
 
   _getMovies = async () => {
@@ -31,13 +40,6 @@ class App extends Component {
     this.setState({
       movies
     });
-  };
-
-  _callAPI = () => {
-    return fetch("https://yts.lt/api/v2/list_movies.json?sort_by=rating")
-      .then(potato => potato.json())
-      .then(tomato => tomato.data.movies)
-      .catch(error => console.log(error));
   };
 
   render() {
