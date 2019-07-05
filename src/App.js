@@ -17,7 +17,7 @@ class App extends Component {
       return (
         <Movie
           title={movie.title}
-          poster={movie.medium_cover_image}
+          poster={movie.large_cover_image}
           key={movie.id}
           genres={movie.genres}
           summary={movie.summary}
@@ -28,7 +28,9 @@ class App extends Component {
   };
 
   _callAPI = () => {
-    return fetch("https://yts.lt/api/v2/list_movies.json?sort_by=rating")
+    return fetch(
+      "https://yts.lt/api/v2/list_movies.json?sort_by=rating&limit=30"
+    )
       .then(potato => potato.json())
       .then(tomato => tomato.data.movies)
       .catch(error => console.log(error));
@@ -43,12 +45,14 @@ class App extends Component {
   };
 
   render() {
+    const { movies } = this.state;
     return (
-      <div className="App">
-        {this.state.movies ? this._renderingMoives() : "Loading"}
+      <div className={movies ? "App" : "App--loading"}>
+        {movies ? this._renderingMoives() : "Loading"}
       </div>
     );
   }
 }
 
 export default App;
+
